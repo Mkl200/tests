@@ -1,0 +1,32 @@
+#!/bin/bash
+##########################################
+#
+# Берем переменные из файла vars, данные из data
+# результат пишем в третий файл
+##########################################
+file_vars="/home/mih/git/vars.txt"
+file_data="/home/mih/git/data.txt"
+file_final="/home/mih/git/final.txt"
+rm $file_final
+i=0
+while read var; do
+  if echo $var  | grep "="; then
+  vars_name[$i]=`echo $var | grep -o '^[^=]*'`
+  vars_var[$i]=`echo $var | grep -o '[^=]*$'`
+  i=$(($i+1))
+  echo $var
+  fi
+done < $file_vars
+
+#echo ${!vars_var[*]}
+
+while read string; do
+  for ii in ${!vars_name[*]}; do
+    echo $string
+    if echo $string | grep ${vars_name[ii]}; then
+    `echo ${string//"$"${vars_name[ii]}/${vars_var[ii]}}>> $file_final`
+
+    fi
+  done
+
+done < $file_data

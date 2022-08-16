@@ -1,0 +1,3 @@
+Variable1 = "Hello"
+Variable2 = "World"
+Variable3 = "World"
